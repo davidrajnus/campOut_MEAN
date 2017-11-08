@@ -5,6 +5,12 @@ var router = express.Router();
 var campgrounds =[
   {name: "Salmon Creek", image: "https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg"},
   {name: "Pulau Ketam", image: "http://photosforclass.com/download/15989950903"},
+  {name: "Bahahulu", image: "http://photosforclass.com/download/14435096036"},
+  {name: "Salmon Creek", image: "https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg"},
+  {name: "Pulau Ketam", image: "http://photosforclass.com/download/15989950903"},
+  {name: "Bahahulu", image: "http://photosforclass.com/download/14435096036"},
+  {name: "Salmon Creek", image: "https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg"},
+  {name: "Pulau Ketam", image: "http://photosforclass.com/download/15989950903"},
   {name: "Bahahulu", image: "http://photosforclass.com/download/14435096036"}
 ];
 /* GET home page. */
