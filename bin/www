@@ -26,6 +26,11 @@ var server = http.createServer(app);
  */
 
 server.listen(port);
+
+if (server.listen(port)) {
+  console.log("CampOut server has started!")
+}
+
 server.on('error', onError);
 server.on('listening', onListening);
 
