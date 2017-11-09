@@ -1,13 +1,68 @@
-<h1>This is the show template</h1>
+<%- contentFor('body') %>
 
-<p><%= campground.name %></p>
+<div class="row">
+  <div class="col-md-3">
+    <p class="lead">Camp Out</p>
+    <div class="list-group">
+      <li class="list-group-item active">Info 1</li>
+      <li class="list-group-item">Info 2</li>
+      <li class="list-group-item">Info 3</li>
+    </div>
+    <div id="map"></div>
+  </div>
+  <div class="col-md-9">
+    <div class="thumbnail">
+      <img class="img-responsive" src="<%= campground.image %>">
+      <div class="caption-full">
+        <h4 class="pull-right">
+          $19.00
+        </h4>
+        <h4><a><%=campground.name%></a></h4>
+        <p><%= campground.description %></p>
+        <p>
+          <em>Submitted by: <a href="">David Hrdcoded</a>, 11 Nov 2017 Hardcode</em>
+        </p>
+
+      </div>
+    </div>
+    <div class="well">
+      <div class="text-right">
+        <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+      </div>
+      <hr>
+      <% campground.comments.forEach(function(comment){ %>
+      <div class="row">
+        <div class="col-md-12">
+          <strong> David Hardcode</strong>
+          <span class="pull-right">Date Hardcode</span>
+          <div>
+           <%= comment.text %> 
+          <hr>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>
+</div>
+
+
+
+
+
+<!-- <div class="container"></div>
+<h1><%= campground.name %></h1>
 
 <img src="<%=campground.image%>">
 
 <p><%= campground.description %></p>
 
+<p>
+  <a class="btn btn-success" href="/campgrounds/<%= campground._id%>/comments/new">Add New Comment</a>
+</p>
+
 <% campground.comments.forEach(function(comment) { %>
   <p>
-    <%= comment.author %>
+    <strong><%= comment.author %></strong> - <%= comment.text %>
   </p>
-<% }) %>
+<% }) %> -->

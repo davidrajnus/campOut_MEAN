@@ -3,6 +3,7 @@ var app = express();
 var router = express.Router();
 var mongoose = require('mongoose');
 var Campground = mongoose.model('Campground');
+var Comment = mongoose.model('Comment');
 
 
 /* GET home page. */
@@ -54,5 +55,41 @@ router.post("/campgrounds", function(req, res) {
     }
   });
 });
+
+//=======================
+// COMMENTS ROUTE
+//=======================
+router.get("/campgrounds/:id/comments/new", function(req, res){
+  Campground.findById(req.params.id, function(err, campground) {
+    if (err){
+      console.log(err);
+    } else {
+        res.render("comments/new" , {campground : campground});
+    };
+  });
+});
+
+router.post("/campgrounds/:id/comments", function(req, res) {
+  Campground.findById(req.params.id, function(err, campground) {
+    if (err){
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      var text = req.body.text;
+      var author = req.body.author;
+      var newComment = {text, author}
+      Comment.create(newComment, function(err, comment) {
+        if (err){
+          console.log(err);
+        } else {
+          campground.comments.push(comment);
+          campground.save();
+          res.redirect("/campgrounds/"+campground._id);
+        }
+      })
+    }
+  });
+});
+
 
 module.exports = router;
