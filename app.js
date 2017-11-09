@@ -6,18 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
+var Campground = require("./models/campground");
+var Comment = require("./models/comment");
+var seedDB = require("./seeds");
+
+seedDB();
 
 mongoose.connect("mongodb://localhost/camp_out");
 
-//Schema Setup
-var campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-});
-
-mongoose.model("Campground", campgroundSchema);
-var Campground = mongoose.model('Campground');
 
 var index = require('./routes/index');
 // var users = require('./routes/users');

@@ -25,11 +25,14 @@ router.get("/campgrounds/new", function (req, res) {
   res.render("new.ejs")
 });
 
+//SHOW
 router.get("/campgrounds/:id", function (req, res) {
-  Campground.findById(req.params.id, function(err, foundCampground) {
+  Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground) {
     if (err) {
-      console.log(err)
+      console.log(err);
+      console.log(foundCampground);
     } else {
+      console.log(foundCampground);
       res.render("show", {campground: foundCampground});
     }
   });
