@@ -14,6 +14,7 @@ var Campground = require("./models/campground");
 var Comment = require("./models/comment");
 var User = require("./models/user");
 var seedDB = require("./seeds");
+var methodOverride = require("method-override");
 
 var commentRoutes     = require("./routes/comments"),
     campgroundRoutes  = require("./routes/campgrounds"),
@@ -61,6 +62,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(methodOverride("_method"));
 
 // app.use('/', index);
 app.use(indexRoutes);
