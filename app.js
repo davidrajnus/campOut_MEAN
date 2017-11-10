@@ -37,7 +37,7 @@ app.use(function(req, res, next){
   next();
 });
 
-seedDB();
+// seedDB();
 
 mongoose.connect("mongodb://localhost/camp_out");
 
@@ -64,8 +64,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', index);
 app.use(indexRoutes);
-app.use(campgroundRoutes);
-app.use(commentRoutes);
+app.use("/campgrounds", campgroundRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
 // app.use('/users', users);
 
 // catch 404 and forward to error handler

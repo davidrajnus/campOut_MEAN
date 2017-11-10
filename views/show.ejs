@@ -20,7 +20,7 @@
         <h4><a><%=campground.name%></a></h4>
         <p><%= campground.description %></p>
         <p>
-          <em>Submitted by: <a href="">David Hrdcoded</a>, 11 Nov 2017 Hardcode</em>
+          <em>Submitted by: <a href=""><%= campground.author.username %></a>, 11 Nov 2017 Hardcode</em>
         </p>
 
       </div>
@@ -33,7 +33,7 @@
       <% campground.comments.forEach(function(comment){ %>
       <div class="row">
         <div class="col-md-12">
-          <strong> David Hardcode</strong>
+          <strong><%= comment.author.username %> </strong>
           <span class="pull-right">Date Hardcode</span>
           <div>
            <%= comment.text %> 
