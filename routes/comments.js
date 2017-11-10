@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
+var middleware = require("../middleware");
+var { isLoggedIn, checkUserComment, isAdmin } = middleware;
 
 function isLoggedIn (req, res, next) {
   if(req.isAuthenticated()) {
@@ -43,6 +45,49 @@ router.post("/",isLoggedIn, function(req, res) {
           res.redirect("/campgrounds/"+campground._id);
         }
       })
+    }
+  });
+});
+
+
+//EDIT Comment
+router.get("/:commentId/edit", isLoggedIn, checkUserComment, function(req, res){
+  res.render("comments/edit", {campground_id: req.params.id, comment: req.comment});
+});
+
+//UPDATE Comment
+router.put("/:commentId", isAdmin, function(req, res){
+   Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function(err, comment){
+       if(err){
+          console.log(err);
+           res.render("edit");
+       } else {
+           res.redirect("/campgrounds/" + req.params.id);
+       }
+   }); 
+});
+
+//DELETE Comment
+router.delete("/:commentId", isLoggedIn, checkUserComment, function(req, res){
+  // find campground, remove comment from comments array, delete comment in db
+  Campground.findByIdAndUpdate(req.params.id, {
+    $pull: {
+      comments: req.comment.id
+    }
+  }, function(err) {
+    if(err){ 
+        console.log(err)
+        req.flash('error', err.message);
+        res.redirect('/');
+    } else {
+        req.comment.remove(function(err) {
+          if(err) {
+            req.flash('error', err.message);
+            return res.redirect('/');
+          }
+          req.flash('error', 'Comment deleted!');
+          res.redirect("/campgrounds/" + req.params.id);
+        });
     }
   });
 });
