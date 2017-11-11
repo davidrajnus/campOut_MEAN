@@ -5,14 +5,6 @@ var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var { isLoggedIn, checkUserComment, isAdmin } = middleware;
 
-function isLoggedIn (req, res, next) {
-  if(req.isAuthenticated()) {
-    return next();
-  } else {
-    res.redirect("/login");
-  };
-};
-
 router.get("/new",isLoggedIn , function(req, res){
   console.log(req.isAuthenticated);
   Campground.findById(req.params.id, function(err, campground) {
@@ -42,6 +34,7 @@ router.post("/",isLoggedIn, function(req, res) {
           comment.save();
           campground.comments.push(comment);
           campground.save();
+          req.flash('success', 'Created a comment!');
           res.redirect("/campgrounds/"+campground._id);
         }
       })
@@ -56,8 +49,8 @@ router.get("/:commentId/edit", isLoggedIn, checkUserComment, function(req, res){
 });
 
 //UPDATE Comment
-router.put("/:commentId", isAdmin, function(req, res){
-   Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function(err, comment){
+router.put("/:commentId", function(req, res){
+   Comment.findByIdAndUpdate(req.params.commentId, {text: req.body.text}, function(err, comment){
        if(err){
           console.log(err);
            res.render("edit");
@@ -68,7 +61,7 @@ router.put("/:commentId", isAdmin, function(req, res){
 });
 
 //DELETE Comment
-router.delete("/:commentId", isLoggedIn, checkUserComment, function(req, res){
+router.delete("/:commentId", function(req, res){
   // find campground, remove comment from comments array, delete comment in db
   Campground.findByIdAndUpdate(req.params.id, {
     $pull: {

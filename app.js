@@ -15,6 +15,8 @@ var Comment = require("./models/comment");
 var User = require("./models/user");
 var seedDB = require("./seeds");
 var methodOverride = require("method-override");
+var flash = require("connect-flash");
+
 
 var commentRoutes     = require("./routes/comments"),
     campgroundRoutes  = require("./routes/campgrounds"),
@@ -33,8 +35,13 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(flash());
+
+//Applies function to all view files
 app.use(function(req, res, next){
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 
